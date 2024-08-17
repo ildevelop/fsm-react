@@ -5,23 +5,33 @@
 ## Overview
 
 React Application using Finite State Machines are a great conceptual model for many concerns facing developers – from conditional UI, connectivity monitoring & management to initialization and more.
+[FSM Library](https://github.com/ildevelop/fsm-libts)
+[DEMO](https://ildevelop.github.io/fsm-react/)
 
 # Usage in a React Application
 
 ### Step 1: Install Dependencies
 
-Install the necessary dependencies for the `fsm-react`:
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/ildevelop/fsm-react.git
+   cd fsm-react
+
+   ```
+
+2. Install dependencies:
 
 ```bash
-npm install
+  yarn
 ```
 
-### Step 2: Run the React Application
-
-Finally, run the React application:
+3. Running the Application:
 
 ```bash
-npm run dev
+  yarn dev
 ```
 
 ### License
