@@ -8,11 +8,9 @@ import { Button } from '../../styles/GlobalTheme';
 
 const ThanksPage: React.FC = () => {
   const [windowDimensions, setWindowDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
-  const { playerName, selectedPresent, resetGame } = useUserContext();
+  const { selectedPresent, resetGame } = useUserContext();
   const navigate = useNavigate();
-  const selectedPlayer = localStorage.getItem('selectedPlayer');
 
-  const selectedName = selectedPlayer || playerName;
   useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({ width: window.innerWidth, height: window.innerHeight });
@@ -32,7 +30,7 @@ const ThanksPage: React.FC = () => {
       <Confetti width={windowDimensions.width} height={windowDimensions.height} recycle={false} numberOfPieces={200} />
       <Title>Thank You!</Title>
       <Message>
-        {selectedName}, you've selected {selectedPresent?.title}!
+        {localStorage.getItem('selectedPlayer')}, you've selected {selectedPresent?.title}!
         <br />
         We hope you enjoy your gift.
       </Message>

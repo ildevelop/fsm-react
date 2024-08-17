@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { apiService } from '../services/api';
+import { fsm, fsmEventName, fsmSteps } from '../utils/consts';
 
 export interface PresentI {
   id: number;
@@ -11,41 +12,45 @@ export interface PresentI {
 
 interface UserContextType {
   step: number;
-  playerName: string;
   selectedPresent: PresentI | null;
   presents: PresentI[];
   loading: boolean;
-  error: string | null;
+  error: boolean;
   setStep: (step: number) => void;
-  setPlayerName: (name: string) => void;
   setSelectedPresent: (present: PresentI | null) => void;
   resetGame: () => void;
+  handleEvent: (eventName: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [step, setStep] = useState(1);
-  const [playerName, setPlayerName] = useState('');
   const [selectedPresent, setSelectedPresent] = useState<PresentI | null>(null);
   const [presents, setPresents] = useState<PresentI[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
+  const [state, setState] = useState(fsm.getState());
   const fetchPresents = useCallback(async () => {
     if (presents.length > 0) return;
     try {
-      setLoading(true);
-      setError(null);
+      handleEvent(fsmEventName.fetch);
       const fetchedPresents = await apiService.getPresents();
+      handleEvent(fsmEventName.success);
       setPresents(fetchedPresents);
     } catch (err) {
-      setError('Failed to fetch presents. Please try again later.');
-    } finally {
-      setLoading(false);
+      console.log('Error fetching presents', err);
+      handleEvent(fsmEventName.failure);
     }
   }, [presents.length]);
 
+  const handleEvent = (event: string) => {
+    try {
+      fsm.send(event);
+      setState(fsm.getState());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // console.log('FSMState', state);
   useEffect(() => {
     if (step === 2) {
       fetchPresents();
@@ -54,7 +59,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const resetGame = () => {
     setStep(1);
-    setPlayerName('');
+    localStorage.removeItem('selectedPlayer');
+    handleEvent(fsmEventName.reset);
+    setPresents([]);
     setSelectedPresent(null);
   };
 
@@ -62,15 +69,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <UserContext.Provider
       value={{
         step,
-        playerName,
         selectedPresent,
         presents,
-        loading,
-        error,
+        loading: state === fsmSteps.loading,
+        error: state === fsmSteps.error,
         setStep,
-        setPlayerName,
         setSelectedPresent,
         resetGame,
+        handleEvent,
       }}
     >
       {children}

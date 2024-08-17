@@ -17,13 +17,11 @@ import {
   TitlePresent,
 } from './PresentSelection.styled';
 import { ErrorMessage, Title } from '../../styles/GlobalTheme';
+import { fsmEventName } from '../../utils/consts';
 
 const PresentSelection: React.FC = () => {
   const navigate = useNavigate();
-  const selectedPlayer = localStorage.getItem('selectedPlayer');
-  const { playerName, selectedPresent, setSelectedPresent, setStep, presents, loading, error, step } = useUserContext();
-
-  const selectedName = selectedPlayer || playerName;
+  const { selectedPresent, setSelectedPresent, setStep, presents, loading, error, step, handleEvent } = useUserContext();
 
   const handlePresentSelect = (present: PresentI) => {
     setSelectedPresent(present);
@@ -37,7 +35,8 @@ const PresentSelection: React.FC = () => {
 
   const handleFinish = () => {
     if (selectedPresent) {
-      console.log(`Player ${playerName} selected ${selectedPresent.title}`);
+      console.log(`selected ${selectedPresent.title}`);
+      handleEvent(fsmEventName.success);
       setStep(3);
       navigate('/thanks');
     }
@@ -73,7 +72,7 @@ const PresentSelection: React.FC = () => {
   }
   return (
     <PageContainer>
-      <TitlePresent>Select a Present for {selectedName}</TitlePresent>
+      <TitlePresent>Select a Present for {localStorage.getItem('selectedPlayer')}</TitlePresent>
       <PresentsGrid>
         {presents.map((present) => (
           <PresentCard key={present.id} selected={selectedPresent?.id === present.id} onClick={() => handlePresentSelect(present)}>

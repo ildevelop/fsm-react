@@ -56,7 +56,7 @@ export const apiService = {
       return response.data;
     } catch (error) {
       console.error('Error fetching presents:', error);
-      throw error;
+      return [];
     }
   },
 

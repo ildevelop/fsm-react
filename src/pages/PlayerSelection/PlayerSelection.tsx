@@ -1,13 +1,13 @@
 // src/components/PlayerSelection.tsx
-import React, { FormEvent, ChangeEvent } from 'react';
+import React, { FormEvent, ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { Button, Card, Form, PageContainer, Input, Title } from '../../styles/GlobalTheme';
 
 const PlayerSelection: React.FC = () => {
-  const { playerName, setPlayerName, setStep } = useUserContext();
+  const { setStep } = useUserContext();
   const navigate = useNavigate();
-
+  const [playerName, setPlayerName] = useState(localStorage.getItem('selectedPlayer') || '');
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (playerName) {
