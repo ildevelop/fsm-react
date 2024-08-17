@@ -26,6 +26,7 @@ const App: React.FC = () => {
               <Route path="/present-selection" element={<PresentSelection />} />
               <Route path="/thanks" element={<ThanksPage />} />
               <Route path="/" element={<Navigate replace to="/player-selection" />} />
+              <Route path="/fsm-react/" element={<Navigate replace to="/player-selection" />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
