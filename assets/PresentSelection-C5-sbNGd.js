@@ -1,4 +1,4 @@
-import{d as t,m as k,T as l,a as w,u as v,r as P,j as e,E as S,f as y}from"./index-DFfHmmMp.js";const o=t.div`
+import{d as t,m as k,T as l,a as w,u as v,r as P,j as e,E as S,f as y}from"./index-CcOahO8U.js";const o=t.div`
   min-height: 100vh;
   background: linear-gradient(135deg, #a777e3, #6e8efb);
   padding: 2rem;
