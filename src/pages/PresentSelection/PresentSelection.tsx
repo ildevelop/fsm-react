@@ -71,7 +71,7 @@ const PresentSelection: React.FC = () => {
     );
   }
   return (
-    <PageContainer>
+    <PageContainer data-testid="presentPage">
       <TitlePresent>Select a Present for {localStorage.getItem('selectedPlayer')}</TitlePresent>
       <PresentsGrid>
         {presents.map((present) => (

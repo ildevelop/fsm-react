@@ -22,11 +22,11 @@ const PlayerSelection: React.FC = () => {
   };
 
   return (
-    <PageContainer>
+    <PageContainer data-testid="playerPage">
       <Card>
         <Title>Enter your name</Title>
         <Form onSubmit={handleSubmit}>
-          <Input placeholder="Ilya" value={playerName} onChange={handleChange}></Input>
+          <Input placeholder="Ilya" value={playerName} onChange={handleChange} data-testid="player-id" />
           <Button type="submit" disabled={!playerName.length}>
             Next
           </Button>
